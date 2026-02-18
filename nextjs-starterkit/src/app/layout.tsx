@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { ThemeProvider } from "@/providers/theme-provider";
+import { QueryProvider } from "@/providers/query-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,7 +14,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Starter Kit",
+  title: {
+    template: "%s | Next.js Starter Kit",
+    default: "Next.js Starter Kit",
+  },
   description:
     "A modern Next.js v15 starter kit with TypeScript, Tailwind CSS v4, and shadcn/ui",
 };
@@ -31,11 +36,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+          <QueryProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <Toaster richColors position="bottom-right" />
+          </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
